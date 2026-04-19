@@ -1,0 +1,6 @@
+Package: esmail
+Version: 1.0
+Architecture: all
+Maintainer: esmail
+Depends: python3, python3-pip, ufw
+Description: esmail Package
