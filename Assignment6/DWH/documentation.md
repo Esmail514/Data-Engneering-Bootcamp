@@ -1,75 +1,97 @@
-# 📘 توثيق مشروع مستودع البيانات (Olist DWH)
+# 📘 توثيق مستودع بيانات Olist المتطور (Advanced Olist DWH)
 
-هذا المشروع يهدف إلى تحويل بيانات متجر Olist من نظام تشغيلي إلى مستودع بيانات جاهز للتحليل.
+هذا المشروع يطبق بنية مستودع بيانات احترافية تعتمد على **Star Schema** مع دعم لـ **Surrogate Keys** و **SCD Type 2**.
 
 ---
 
-## 🏗️ هندسة النظام (Architecture)
+## 🏗️ مخطط قاعدة البيانات (Data Warehouse Schema)
 
-استخدمنا نهج **Star Schema** (مخطط النجمة) لأنه الأبسط والأسرع في استخراج التقارير.
+تم تصميم المستودع ليكون مركزياً وقابلاً للتوسع، مع فصل الأداء اللوجستي عن أداء المبيعات.
 
 ```mermaid
 erDiagram
-    FACT_SALES {
-        string order_id
-        string product_id
-        string customer_id
-        string seller_id
-        int date_key
-        float price
-        float freight_value
-    }
-    DIM_CUSTOMERS {
-        string customer_id
-        string customer_unique_id
-        string city
-        string state
-    }
-    DIM_PRODUCTS {
-        string product_id
-        string category_name_english
-    }
-    DIM_DATE {
-        int Id
-        date Date
-        int FiscalYear
-        int FiscalMonth
-    }
-    DIM_SELLERS {
-        string seller_id
-        string city
-        string state
+    DIM_CUSTOMER ||--o{ FACT_ORDER_ITEMS : "buys"
+    DIM_PRODUCT ||--o{ FACT_ORDER_ITEMS : "included in"
+    DIM_SELLER ||--o{ FACT_ORDER_ITEMS : "sells"
+    DIM_ORDER ||--o{ FACT_ORDER_ITEMS : "contains"
+    DIM_DATE ||--o{ FACT_ORDER_ITEMS : "placed on"
+
+    DIM_CUSTOMER ||--o{ FACT_DELIVERY_PERFORMANCE : "belongs to"
+    DIM_SELLER ||--o{ FACT_DELIVERY_PERFORMANCE : "shipped by"
+    DIM_PRODUCT ||--o{ FACT_DELIVERY_PERFORMANCE : "item type"
+    DIM_ORDER ||--o{ FACT_DELIVERY_PERFORMANCE : "order info"
+    DIM_DATE ||--o{ FACT_DELIVERY_PERFORMANCE : "performance date"
+
+    DIM_CUSTOMER {
+        bigint customer_key PK
+        text customer_id
+        text customer_unique_id
+        text customer_city
+        text customer_state
+        timestamp start_date
+        timestamp end_date
+        int is_current
     }
 
-    FACT_SALES ||--o{ DIM_CUSTOMERS : "belongs to"
-    FACT_SALES ||--o{ DIM_PRODUCTS : "contains"
-    FACT_SALES ||--o{ DIM_DATE : "happened on"
-    FACT_SALES ||--o{ DIM_SELLERS : "sold by"
+    DIM_PRODUCT {
+        bigint product_key PK
+        text product_id
+        text product_category_name_english
+        double product_weight_g
+        timestamp start_date
+        int is_current
+    }
+
+    DIM_DATE {
+        bigint date_key PK
+        timestamp full_date
+        int year
+        int quarter
+        int month
+        text day_of_week
+        int is_weekend
+    }
+
+    FACT_ORDER_ITEMS {
+        bigint order_key FK
+        bigint customer_key FK
+        bigint product_key FK
+        bigint seller_key FK
+        bigint date_key FK
+        double sales_amount
+        double freight_amount
+        bigint quantity
+    }
+
+    FACT_DELIVERY_PERFORMANCE {
+        bigint customer_key FK
+        bigint seller_key FK
+        bigint product_key FK
+        bigint order_key FK
+        bigint date_key FK
+        double delivery_days
+        double late_days
+        double approval_delay
+        double carrier_delay
+    }
 ```
 
 ---
 
 ## 🛠️ خطة نقل البيانات (ETL Pipeline)
 
-تم بناء العملية باستخدام **Python & Pandas** داخل ملف `ETL.ipynb`:
-1.  **Extract (استخراج):** قراءة البيانات من ملف `olist.sqlite` وجدول التواريخ.
-2.  **Transform (تحويل):** 
-    *   ربط جداول الطلبات وعناصر الطلبات.
-    *   ترجمة أسماء فئات المنتجات للإنجليزية.
-    *   تنظيف التواريخ لتناسب مفتاح الربط (DateKey).
-3.  **Load (تحميل):** حفظ البيانات النهائية في قاعدة بيانات تحليلية من نوع **PostgreSQL**.
+1.  **Extract:** استخراج البيانات من SQLite وجداول CSV.
+2.  **Transform:**
+    *   **Surrogate Keys:** إنشاء مفاتيح بديلة (SK) لكل الأبعاد لضمان استقلالية البيانات.
+    *   **SCD Type 2:** إضافة أعمدة تتبع التغيير التاريخي (`start_date`, `end_date`, `is_current`).
+    *   **Calculations:** حساب أيام التأخير، زمن الموافقة، وزمن الشحن لجدول الأداء.
+3.  **Load:** تحميل البيانات إلى **PostgreSQL المحلي** مع تعريف الأنواع الصحيحة.
 
 ---
 
-## 🚀 تحسين الأداء (Performance)
+## 🚀 كيفية التشغيل (Local Deployment)
 
-*   **الفهارس (Indexing):** قمنا بإنشاء فهارس على مفاتيح الربط في جدول الحقائق (Product, Customer, Date) لتسريع عمليات الـ JOIN والاستعلامات.
-*   **PostgreSQL:** اخترنا PostgreSQL لقدرته العالية على معالجة البيانات الكبيرة ودعمه لعمليات الاستعلام المتزامنة بشكل أفضل من SQLite.
-
----
-
-## 📝 ملاحظات وافتراضات
-
-*   **لماذا Star Schema؟** لأنه الأفضل للمستخدمين غير التقنيين لكتابة استعلامات SQL بسيطة ومباشرة.
-*   **التبسيط:** قمنا بدمج البيانات الأساسية فقط لضمان سرعة الأداء وسهولة الفهم (Keep It Simple).
-*   **البيانات المفقودة:** تم استبدال أسماء الفئات المفقودة بكلمة "Unknown" لضمان عدم ضياع أي سجلات مبيعات.
+1.  تأكد من أن قاعدة بيانات PostgreSQL تعمل على جهازك.
+2.  قم بإنشاء قاعدة بيانات باسم `ecommerce_dwh` (أو عدل الاسم في الكود).
+3.  افتح ملف `ETL.ipynb` وقم بتعديل قسم **CONFIGURATION** ببياناتك الخاصة (اسم المستخدم، كلمة المرور، المنفذ).
+4.  شغل جميع الخلايا لتنفيذ عملية نقل البيانات.
