@@ -1,0 +1,204 @@
+[ {
+  "log_id" : 8359,
+  "device_id" : "IPHONE-13",
+  "log_level" : "WARNING",
+  "event_name" : "login_attempt",
+  "response_time_ms" : 796,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 5337,
+  "device_id" : "SM-G991",
+  "log_level" : "WARNING",
+  "event_name" : "api_call",
+  "response_time_ms" : 398,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 7307,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "DEBUG",
+  "event_name" : "button_click",
+  "response_time_ms" : 1455,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 7083,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "INFO",
+  "event_name" : "button_click",
+  "response_time_ms" : 886,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9367,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "DEBUG",
+  "event_name" : "api_call",
+  "response_time_ms" : 525,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9694,
+  "device_id" : "SM-G991",
+  "log_level" : "WARNING",
+  "event_name" : "notification_click",
+  "response_time_ms" : 1333,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 2091,
+  "device_id" : "SM-A52",
+  "log_level" : "INFO",
+  "event_name" : "purchase",
+  "response_time_ms" : 820,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 4694,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "INFO",
+  "event_name" : "api_call",
+  "response_time_ms" : 319,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 2611,
+  "device_id" : "SM-A52",
+  "log_level" : "ERROR",
+  "event_name" : "notification_click",
+  "response_time_ms" : 1250,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 6182,
+  "device_id" : "SM-A52",
+  "log_level" : "DEBUG",
+  "event_name" : "api_call",
+  "response_time_ms" : 512,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 7847,
+  "device_id" : "SM-A52",
+  "log_level" : "WARNING",
+  "event_name" : "purchase",
+  "response_time_ms" : 1118,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 1457,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "ERROR",
+  "event_name" : "button_click",
+  "response_time_ms" : 355,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9422,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "ERROR",
+  "event_name" : "app_open",
+  "response_time_ms" : 515,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9739,
+  "device_id" : "SM-A52",
+  "log_level" : "ERROR",
+  "event_name" : "notification_click",
+  "response_time_ms" : 1282,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 3835,
+  "device_id" : "IPHONE-13",
+  "log_level" : "WARNING",
+  "event_name" : "notification_click",
+  "response_time_ms" : 1127,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9172,
+  "device_id" : "IPHONE-13",
+  "log_level" : "INFO",
+  "event_name" : "api_call",
+  "response_time_ms" : 256,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 6463,
+  "device_id" : "SM-G991",
+  "log_level" : "WARNING",
+  "event_name" : "notification_click",
+  "response_time_ms" : 717,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9453,
+  "device_id" : "PIXEL-6",
+  "log_level" : "INFO",
+  "event_name" : "api_call",
+  "response_time_ms" : 173,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 9326,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "DEBUG",
+  "event_name" : "notification_click",
+  "response_time_ms" : 918,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 7163,
+  "device_id" : "SM-A52",
+  "log_level" : "WARNING",
+  "event_name" : "app_open",
+  "response_time_ms" : 508,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 3211,
+  "device_id" : "SM-G991",
+  "log_level" : "WARNING",
+  "event_name" : "login_attempt",
+  "response_time_ms" : 241,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 8158,
+  "device_id" : "IPHONE-13",
+  "log_level" : "DEBUG",
+  "event_name" : "logout",
+  "response_time_ms" : 839,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 3943,
+  "device_id" : "SM-G991",
+  "log_level" : "WARNING",
+  "event_name" : "logout",
+  "response_time_ms" : 616,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 8060,
+  "device_id" : "IPHONE-13",
+  "log_level" : "WARNING",
+  "event_name" : "logout",
+  "response_time_ms" : 750,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 4957,
+  "device_id" : "SM-A52",
+  "log_level" : "INFO",
+  "event_name" : "api_call",
+  "response_time_ms" : 1258,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 5438,
+  "device_id" : "PIXEL-6",
+  "log_level" : "INFO",
+  "event_name" : "login_attempt",
+  "response_time_ms" : 22,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 8762,
+  "device_id" : "SM-G991",
+  "log_level" : "ERROR",
+  "event_name" : "app_open",
+  "response_time_ms" : 847,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 4264,
+  "device_id" : "ONEPLUS-11",
+  "log_level" : "DEBUG",
+  "event_name" : "purchase",
+  "response_time_ms" : 607,
+  "timestamp" : "2026-05-15 07:55:42"
+}, {
+  "log_id" : 8610,
+  "device_id" : "IPHONE-13",
+  "log_level" : "INFO",
+  "event_name" : "purchase",
+  "response_time_ms" : 1360,
+  "timestamp" : "2026-05-15 07:55:42"
+} ]

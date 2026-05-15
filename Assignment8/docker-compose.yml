@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # --- Apache NiFi ---
+  nifi:
+    image: apache/nifi:latest
+    container_name: nifi_container
+    ports:
+      - "8443:8443"
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=admin
+      - SINGLE_USER_CREDENTIALS_PASSWORD=password12345
+    volumes:
+      - ./mobile_logs_input:/opt/nifi/nifi-current/mobile_logs_input
+      - nifi_data:/opt/nifi/nifi-current/conf  
+      - nifi_state:/opt/nifi/nifi-current/state 
+      - ./nifi/extensions:/opt/nifi/nifi-current/nar_extensions
+      - ./hadoop-conf:/opt/nifi/nifi-current/hadoop-conf
+
+
+  # --- Hadoop (itvdelab) ---
+  hadoop:
+    image: itversity/itvdelab:latest
+    container_name: hadoop_container
+    ports:
+      - "9870:9870"
+      - "8088:8088"
+      - "8020:8020"
+    tty: true
+    volumes:
+      - hadoop_hdfs:/var/lib/hadoop-hdfs 
+
+ # --- Zookeeper ---
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.1
+    container_name: zookeeper_container
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+
+  # --- Apache Kafka ---
+  kafka:
+    image: confluentinc/cp-kafka:7.4.1
+    container_name: kafka_container
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+
+volumes:
+  nifi_data:
+  nifi_state:
+  hadoop_hdfs:
+  zookeeper_data:
+  kafka_data:
+
+networks:
+  default:
+    name: data_engineering_network
